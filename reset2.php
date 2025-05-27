@@ -6,9 +6,8 @@ if (isset($_POST["email"]) && isset($_POST["signature"]) && isset($_POST["timest
   $secret_key = 'cfd87hgfc0uewcfd32ojnbt569uhbaplr';
   $data = "$email|$timestamp";
   $expected_sig = hash_hmac('sha256', $data, $secret_key);
-  if (!(hash_equals($expected_sig, $provided_sig))){
-	  header("Location: reset1.php");
-	  exit();
+  if (!(hash_equals($expected_sig, $provided_sig) && time() - $timestamp <= 3600)){
+	  die("Invalid or expired verification token. Please <a href='reset1.php'>try again</a>");
 	} 
 }
 else{
@@ -30,7 +29,7 @@ else{
 			text-align: center;
 			margin-left: auto;
 			margin-right: auto;  
-			width: 98%; 
+			width: 90%; 
 			max-width: 450px; 
 			background-color: #e6ffb3;
 			padding-top: 50px;
@@ -39,16 +38,16 @@ else{
 
 		p{
 			text-align: left;
-			margin-top: 6px;
-			margin-bottom: 0px;
 			padding-left: 2px;
 			padding-right: 2px;			
-			padding-bottom: 0px;
-			padding-top: 0px;
-			font-size: 12px;
+			font-size: 14px;
 			width: 90%;
 			margin-right: auto;
 			margin-left: auto;
+			margin-top: 0px;
+			margin-bottom: 0px;		
+			padding-bottom: 0px;
+			padding-top: 4px;
 		}
 
 		.error{
@@ -64,13 +63,13 @@ else{
 			width: 90%;
 		 	height: 42px;
 		 	border-radius: 5px;
-		 	border: 1px solid black;
+		 	border: solid #b3b3b3 2px;
 		 	padding-left: 5px;
 		 	font-size: 16px;		 	
 		}
 
 		input#submit{
-			margin-top: 50px;
+			margin-top: 40px;
 			margin-bottom: 30px;
 			border-radius: 23px;
 			height: 46px; 
@@ -90,8 +89,8 @@ else{
 		} 
 
 		input.user:focus{
-		border: 2px solid #0544b5;
-		outline: 5px solid #66ccff;		
+			border: 2px solid #0544b5;
+			outline: 5px solid #66ccff;		
 		}
 
 	</style>
@@ -102,8 +101,8 @@ else{
 		<form id="form" action="reset_password.php" method="post" novalidate>
 			<input type="password" name="password" id="password" class="user" placeholder="New password" required maxlength="20" minlength="8">			
 			<p id="error_password" class="error"></p>
-			<p id="hint_password" class="hint">Password should include Number, Upper Case (A-Z), and Lower Case (a-z) letter</p>
-			<input type="password" name="confirm_password" id="confirm_password" class="user" minlength="8" maxlength="20" placeholder="Confirm new password" style="margin-top: 40px;" required>
+			<p id="hint_password" class="hint">Password should include <b style="color: orangered;">Number</b>, <b style="color: orangered;">Upper Case</b> (A-Z), and <b style="color: orangered;">Lower Case</b> (a-z) letter</p>
+			<input type="password" name="confirm_password" id="confirm_password" class="user" minlength="8" maxlength="20" placeholder="Confirm new password" style="margin-top: 35px;" required>
 			<p id="error_confirm_password" class="error"></p>
 			<input type="hidden" name="email" value="<?php echo htmlspecialchars($email) ?>">
 			<input type="hidden" name="signature" value="<?php echo htmlspecialchars($provided_sig) ?>">
@@ -119,8 +118,11 @@ else{
 		const error_password = document.getElementById("error_password");
 		const error_confirm_password = document.getElementById("error_confirm_password");
 		const hint_password = document.getElementById("hint_password");
+		const submit = document.getElementById("submit");
+
 
 		form.addEventListener("submit", (event) => {
+			hint_password.style.display = "none";
 			if (!(password.validity.valid)) {
     			showError(password);
     			event.preventDefault();
@@ -136,7 +138,9 @@ else{
 		});
 
 		password.addEventListener("focusout", (event) => {
-			hint_password.style.display = "none";
+			if (event.relatedTarget !== null && (event.relatedTarget.id !== "submit")){
+				hint_password.style.display = "none";
+			}
 			if(password.value !== ""){
 	  			if(!(/[0-9]/.test(password.value))){
 	  				error_password.innerHTML = "&#9888; Password should include at least 1 numeric character";

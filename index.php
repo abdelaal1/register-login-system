@@ -7,7 +7,7 @@
 	<style type="text/css">
 
 		div#outer{
-			width: 98%; 
+			width: 90%; 
 			max-width: 450px; 
 			background-color: #e6ffb3;
 			padding-top: 50px;
@@ -33,6 +33,7 @@
 			text-align: left;
 			margin-top: 20px;
 			margin-bottom: 0px;
+			font-size: 14px;
 			display: none;
 		}
 
@@ -43,6 +44,7 @@
 		 	border: 1px solid black;
 		 	padding-left: 5px;
 		 	font-size: 14px;
+		 	border: solid #b3b3b3 2px;
 		}
 
 		input[name="email"]{
@@ -160,7 +162,7 @@
 					var res_obj = JSON.parse(res_text);
 					var res = res_obj.res;
 					if (res == "valid credentials") {
-						window.location.href = "admin_dashboard.php";
+						window.location.href = "http://localhost/admin_dashboard.php?lang=ar";
 					}
 					else{
 						error.style.display = "block";	  			

@@ -17,6 +17,11 @@
 			padding-bottom: 45px;
 		}
 
+		input::placeholder {
+		  font-size: 14px;
+		  opacity: 0.7; 
+		}
+
 		.user{
 			width: 90%;
 		 	height: 44px;
@@ -26,7 +31,8 @@
 		 	padding-left: 5px;
 		 	font-size: 16px;
 		 	padding-top: 0px;
-		 	padding-bottom: 0px; 		 	
+		 	padding-bottom: 0px;
+		 	border: solid #b3b3b3 2px; 		 	
 		}
 
 		#register{
@@ -54,16 +60,16 @@
 
 		p{
 			text-align: left;
-			margin-top: 6px;
-			margin-bottom: 0px;
 			padding-left: 2px;
 			padding-right: 2px;			
-			padding-bottom: 0px;
-			padding-top: 0px;
 			font-size: 14px;
 			width: 90%;
 			margin-right: auto;
 			margin-left: auto;
+			margin-top: 8px;
+			margin-bottom: 0px;		
+			padding-bottom: 0px;
+			padding-top: 0px;
 		}
 
 		p.error{
@@ -84,7 +90,7 @@
 		.hint{
 			margin-top: 8px;
 			font-style: italic;
-			color: darkviolet;
+			color: darkviolet;			
 			display: none;
 		}
 
@@ -153,13 +159,13 @@
 	<div>
 		<a href="index.php" style="display: inline-block; font-size: 18px; font-weight: bold;">Login</a>
 		<form id="form" method="post" action="email1.php" enctype="application/x-www-form-urlencoded" novalidate>
-			<input type="text" name="name" id="name" class="user" placeholder="Name (max: 40 characters)" required maxlength="40">			
+			<input type="text" name="name" id="name" class="user" placeholder="Name (max: 40 characters)" required maxlength="40" style="margin-top: 30px;">			
 			<p id="error_name" class="error"></p>
-			<p id="hint_name" class="hint" dir="rtl" style="text-align: right;">hint</p>
+			<p id="hint_name" class="hint" dir="rtl" style="text-align: right;">مثال: دكتور على جاد / بنك مصر- فرع سموحة </p>
 			<input type="email" name="email" id="email" class="user" placeholder="Email" required maxlength="40">
 			<p id="error_email" class="error"></p>
 			<input type="password" name="password" id="password" class="user" placeholder="Password" required maxlength="20" minlength="8"><p id="error_password" class="error"></p>
-			<p id="hint_password" class="hint">Password should include Number, Upper Case (A-Z), and Lower Case (a-z) letter</p>
+			<p id="hint_password" class="hint">Password should include <b style="color: orangered;">Number</b>, <b style="color: orangered;">Upper Case</b> (A-Z), and <b style="color: orangered;">Lower Case</b> (a-z) letter</p>
 			<input type="password" name="confirm_password" id="confirm_password" class="user" minlength="8" maxlength="20" placeholder="Confirm Password" required>
 			<p id="error_confirm_password" class="error"></p>
 			<input type="submit" name="submit" value="Create Account" id="register">
@@ -184,8 +190,11 @@
 		const counter = document.getElementById("counter");
 		const show_hide = document.getElementById("show_hide");
 		const show_hide1 = document.getElementById("show_hide1");
+		const register = document.getElementById("register");
 
 		form.addEventListener("submit", (event) => {
+			hint_name.style.display = "none";
+			hint_password.style.display = "none";
 			if (!(name.validity.valid)) {
     			showError(name);
     			event.preventDefault();
@@ -208,7 +217,7 @@
 						}
 				    }
 				};
-				var url = "check_email_existence.php?email="+ encodeURIComponent(email.value);
+				var url = "check_email_existence.php?email="+ email.value;
 				xhttp.open("get", url, false);
 				xhttp.send();
 			}
@@ -231,7 +240,9 @@
 		});
 
 		name.addEventListener("focusout", (event) => {
-			hint_name.style.display = "none";
+			if (event.relatedTarget !== null && (event.relatedTarget.id !== "register")){
+				hint_name.style.display = "none";
+			}
 			if (event.relatedTarget !== null && (event.relatedTarget.id == "show_hide" || event.relatedTarget.id == "show_hide1")) {
 		  		name.focus();
 		  		return;

@@ -10,7 +10,7 @@
 			text-align: center;
 			margin-left: auto;
 			margin-right: auto;  
-			width: 98%; 
+			width: 90%; 
 			max-width: 450px; 
 			background-color: #e6ffb3;
 			padding-top: 50px;
@@ -25,6 +25,7 @@
 			text-align: left;
 			margin-top: 20px;
 			margin-bottom: 0px;
+			font-size: 14px;
 			display: none;
 		}
 
@@ -32,7 +33,7 @@
 			width: 90%;
 		 	height: 42px;
 		 	border-radius: 5px;
-		 	border: 1px solid black;
+		 	border: solid #b3b3b3 2px;
 		 	padding-left: 5px;
 		 	font-size: 14px;		 	
 		}

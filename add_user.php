@@ -35,12 +35,8 @@ if (isset($_POST["name"])&&isset($_POST["email"])&&isset($_POST["encrypted_passw
 
   	echo "<h4><span style='color: green; font-size: 85%'>&#10004; </span>Registration completed successfully.</h4>Click <a href = 'index.php'>here</a> to login.";
   }
-  else if (hash_equals($expected_sig, $provided_sig) && time() - $timestamp > 3600){
-    echo "The verification token has been expired. <a href = 'register.php'>Try again</a>";
-  }
   else{
-    header("Location: index.php");
-    exit();
+    echo "Invalid or expired verification token. Please <a href='register.php'>try again</a>";
   }
 }
 else{

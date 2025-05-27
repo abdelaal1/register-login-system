@@ -33,12 +33,8 @@ if (isset($_POST["email"]) && isset($_POST["signature"]) && isset($_POST["timest
 
     echo "<h4><span style='color: green; font-size: 85%'>&#10004; </span>Your password has successfully been reset.</h4>Click <a href = 'index.php'>here</a> to login.";
   }
-  else if (hash_equals($expected_sig, $provided_sig) && time() - $timestamp > 3600){
-    echo "The verification token has been expired. <a href = 'reset1.php'>Try again</a>";
-  }
   else{
-    header("Location: reset1.php");
-    exit();
+    echo "Invalid or expired verification token. Please <a href='reset1.php'>try again</a>";
   }
 } 
 else{

@@ -9,7 +9,7 @@ header("Pragma: no-cache");
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Complete Registeration</title>
+    <title>Complete Resetting password</title>
 </head>
 <body>
     <form id="form" action="reset2.php" method="post">
